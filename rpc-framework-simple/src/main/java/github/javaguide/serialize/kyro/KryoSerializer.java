@@ -6,6 +6,8 @@ import com.esotericsoftware.kryo.io.Output;
 import github.javaguide.exception.SerializeException;
 import github.javaguide.remoting.dto.RpcRequest;
 import github.javaguide.remoting.dto.RpcResponse;
+import github.javaguide.remoting.transport.netty.test.MyRpcRequest;
+import github.javaguide.remoting.transport.netty.test.MyRpcResponse;
 import github.javaguide.serialize.Serializer;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +30,8 @@ public class KryoSerializer implements Serializer {
         Kryo kryo = new Kryo();
         kryo.register(RpcResponse.class);
         kryo.register(RpcRequest.class);
+        kryo.register(MyRpcRequest.class);
+        kryo.register(MyRpcResponse.class);
         return kryo;
     });
 
