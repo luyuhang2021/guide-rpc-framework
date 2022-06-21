@@ -1,7 +1,5 @@
 package github.javaguide.remoting.transport.netty.test;
 
-import github.javaguide.remoting.transport.netty.client.NettyRpcClientHandler;
-import github.javaguide.remoting.transport.netty.server.NettyRpcServerHandler;
 import github.javaguide.serialize.kyro.KryoSerializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -39,8 +37,8 @@ public class MyNettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new NettyKryoDecoder(kryoSerializer, MyRpcResponse.class));
-                            ch.pipeline().addLast(new NettyKryoEncoder(kryoSerializer, MyRpcRequest.class));
+                            ch.pipeline().addLast(new NettyKryoDecoder(kryoSerializer, MyRpcRequest.class));
+                            ch.pipeline().addLast(new NettyKryoEncoder(kryoSerializer, MyRpcResponse.class));
                             ch.pipeline().addLast(new MyNettyServerHandler());
                         }
                     });
@@ -52,5 +50,10 @@ public class MyNettyServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+
+    public static void main(String[] args) {
+        MyNettyServer myNettyServer = new MyNettyServer(8889);
+        myNettyServer.run();
     }
 }

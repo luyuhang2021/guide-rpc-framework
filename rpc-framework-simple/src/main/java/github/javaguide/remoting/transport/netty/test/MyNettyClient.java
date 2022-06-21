@@ -81,6 +81,16 @@ public class MyNettyClient {
         }
         return null;
     }
+
+    public static void main(String[] args) {
+        MyRpcRequest myRpcRequest = new MyRpcRequest("interface", "hello");
+        MyNettyClient myNettyClient = new MyNettyClient("127.0.0.1", 8889);
+        for (int i = 0; i < 3; i++) {
+            myNettyClient.send(myRpcRequest);
+        }
+        MyRpcResponse myRpcResponse = myNettyClient.send(myRpcRequest);
+        System.out.println(myRpcResponse.toString());
+    }
 }
 
 

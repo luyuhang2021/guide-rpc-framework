@@ -24,7 +24,7 @@ public class MyNettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         try {
-            MyRpcResponse rpcRequest = (MyRpcResponse) msg;
+            MyRpcRequest rpcRequest = (MyRpcRequest) msg;
             logger.info("server receive msg: [{}] ,times:[{}]", rpcRequest, atomicInteger.getAndIncrement());
             MyRpcResponse messageFromServer = MyRpcResponse.builder().message("message from server").build();
             ChannelFuture f = ctx.writeAndFlush(messageFromServer);
