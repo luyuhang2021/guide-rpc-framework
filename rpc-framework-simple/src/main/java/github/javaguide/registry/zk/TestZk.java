@@ -26,14 +26,17 @@ public class TestZk {
                 .retryPolicy(retryPolicy)
                 .build();
         zkClient.start();
-        zkClient.create().forPath("/node1/node1.1");
-        zkClient.create().withMode(CreateMode.PERSISTENT).forPath("/node1/node1.2");
-        zkClient.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath("/node1/tmp1.1");
+//        zkClient.create().forPath("/node1/node1.1");
+//        zkClient.create().withMode(CreateMode.PERSISTENT).forPath("/node1/node1.3");
+        zkClient.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath("/node1/tmp1.3");
         zkClient.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath("/node1/00001","java".getBytes());
         zkClient.getData().forPath("/node1/00001");//获取节点的数据内容，获取到的是 byte数组
         zkClient.checkExists().forPath("/node1/00001");
-        zkClient.getData().forPath("/node1/00001");//获取节点的数据内容
+        byte[] bytes = zkClient.getData().forPath("/node1/00001");//获取节点的数据内容
+        System.out.println(Arrays.toString(bytes));
         zkClient.setData().forPath("/node1/00001","c++".getBytes());//更新节点数据内容
+        byte[] bytes1 = zkClient.getData().forPath("/node1/00001");//获取节点的数据内容
+        System.out.println(Arrays.toString(bytes1));
         List<String> childrenPaths = zkClient.getChildren().forPath("/node1");
         System.out.println(Arrays.toString(childrenPaths.toArray()));
         zkClient.close();
